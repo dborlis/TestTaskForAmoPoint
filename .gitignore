@@ -1,1 +1,11 @@
 /personal
+
+# Node.js dependencies
+node_modules/
+
+# SQLite DB
+*.db
+*.sqlite
+
+# IDE
+.vscode/

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Please login</title>
+
+    <!-- Here we use our counter ourselves on the same page where we log in. It's just easier because we don't need to put it to another domain -->
+    <script src="/tracker.js"></script>
+</head>
+<body>
+    <input id="login" placeholder="login">
+    <input id="password" type="password" placeholder="password">
+    <button onclick="login()">Login</button>
+
+    <script>
+        async function login() {
+            const res = await fetch('/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    login: document.getElementById('login').value,
+                    password: document.getElementById('password').value
+                })
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                localStorage.setItem('token', data.token);
+                location.href = '/';
+            } else {
+                alert('Some error!');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -33,3 +33,34 @@ Tested on PHP v7.4.23
 #### Steps to use
 
 - Copy code of task2snippet.js file and run it in browser console, or attach this file using \<script\> tag before the closing \<body\> tag in the HTML page
+
+
+### Task 3
+
+Дополнительное задание
+Написать счетчик посещений страницы. Решение должно состоять из двух компонентов: 
+   -кода на js, который подключается к любому сайту. Скрипт должен собрать необходимые данные(ip, город, устройство) и отправлять на сервер.
+   -бэк часть, который хранит данные в БД(sqllite или другой на выбор) и показывает график посещений по часам(по оси х - количество уникальных посещений за час, по оси y- время), круговую диаграмму с разбиением по городам.
+Оформить в виде страницы просмотра статистики с авторизацией. Решение выложить на любой хостинг для возможности проверки
+
+#### Steps to use
+
+> **Примечание!
+> В данный момент у меня нет возможности выложить код на какой-либо хостинг. Но решение протестировано локально и оно работает.**
+
+
+- This code can be just runned locally use `node app.js` command and then by opening http://localhost:3000/ you can login by using **admin:admin** credentials and see the stats after login. Every page refresh will add new line with your visit in to DB.
+
+##### Other way to use - host it globally somewhere
+
+- copy project folder `task3tracker`
+- `npm install` to install dependencie
+- install server if not yet (nginx/apache)
+- create autorun for the app.js
+- check that everything works here https://your-domain.ru/track and here https://your-domain.ru/stats/hours
+- replace `localhost:3000` with real domain name (your-domain.ru) in file `task3tracker\tracker.js` at the line starts with 'const endpoint....', uncomment that line and remove next line with connemt "USED FOR LOCAL OR "SAME DOMAIN" TESTING"
+- embed the tracker script `task3tracker\tracker.js` in to your website/page
+```html
+<script src="http://your-domain.ru/tracker.js"></script>
+```
+

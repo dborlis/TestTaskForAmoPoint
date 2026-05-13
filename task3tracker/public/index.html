@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats is here</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Here we use our counter ourselves on the same page where we check the stat. It's just easier because we don't need to put it to another domain -->
+    <script src="/tracker.js"></script>
+</head>
+<body>
+
+    <canvas id="visitsChart"></canvas>
+    <canvas id="citiesChart"></canvas>
+
+    <script>
+
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            location.href = '/login.html';
+        }
+
+        async function loadStats() {
+            const hours = await fetch('/stats/hours', {
+                headers: {
+                Authorization: token
+                }
+            }).then(r => {
+                if (r.status === 401) {
+                    localStorage.removeItem('token');
+                    location.href = '/login.html';
+                }
+                return r.json();
+            });
+
+            const cities = await fetch('/stats/cities', {
+                headers: {
+                Authorization: token
+                }
+            }).then(r => r.json());
+
+            new Chart(document.getElementById('visitsChart'), {
+                type: 'line',
+                data: {
+                labels: hours.map(h => h.hour),
+                datasets: [{
+                    label: 'Visits',
+                    data: hours.map(h => h.visits)
+                }]
+                }
+            });
+
+            new Chart(document.getElementById('citiesChart'), {
+                type: 'pie',
+                data: {
+                labels: cities.map(c => c.city),
+                datasets: [{
+                    data: cities.map(c => c.count)
+                }]
+                }
+            });
+        }
+
+        loadStats();
+    </script>
+    
+</body>
+</html>
